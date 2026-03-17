@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureSmile Dental Studio · Nagpur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06090F;--surface:#0D1218;--card:#111820;
+  --mint:#4ECFB0;--mint2:#2AAFA0;
+  --white:#F5F8F7;--muted:rgba(245,248,247,0.52);--muted2:rgba(245,248,247,0.28);
+  --border:rgba(245,248,247,0.07);--gold:#E8C97A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cursor,#cursor-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cursor{width:10px;height:10px;background:var(--mint);mix-blend-mode:screen;transition:width .25s,height .25s,background .25s}
+#cursor-ring{width:36px;height:36px;border:1px solid rgba(78,207,176,.35);z-index:9998;transition:width .25s,height .25s}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:18px;height:18px;background:var(--gold)}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:54px;height:54px;border-color:rgba(232,201,122,.4)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.4rem 5vw;display:flex;align-items:center;justify-content:space-between;transition:background .4s,border-bottom .4s}
+nav.scrolled{background:rgba(6,9,15,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:500;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint);animation:pdot 2.5s ease infinite}
+@keyframes pdot{0%,100%{box-shadow:0 0 10px var(--mint)}50%{box-shadow:0 0 22px var(--mint),0 0 38px rgba(78,207,176,.3)}}
+nav ul{list-style:none;display:flex;gap:2.5rem;align-items:center}
+nav ul a{text-decoration:none;font-size:.8rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+nav ul a:hover{color:var(--white)}
+.nav-book{border:1px solid var(--mint) !important;color:var(--mint) !important;padding:.5rem 1.3rem;border-radius:100px;transition:all .3s !important}
+.nav-book:hover{background:var(--mint) !important;color:var(--bg) !important;box-shadow:0 0 28px rgba(78,207,176,.4) !important}
+
+/* ===================== HERO ===================== */
+/* CRITICAL: No opacity:0 on hero content. Animations are additive only. */
+.hero{min-height:100vh;position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(78,207,176,.06) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(232,201,122,.04) 0%,transparent 50%),var(--bg)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:80px 80px;opacity:.5;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
+
+/* Tooth decorations — always absolute, never in document flow */
+.tdeco{position:absolute;pointer-events:none;z-index:1;opacity:.07}
+@keyframes fa{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(7deg)}}
+@keyframes fb{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(14px) rotate(-8deg)}}
+@keyframes fc{0%,100%{transform:translateY(0) rotate(10deg)}50%{transform:translateY(-10px) rotate(18deg)}}
+
+.hero-left{padding:8rem 5vw 8rem 8vw;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:.6rem;background:rgba(78,207,176,.08);border:1px solid rgba(78,207,176,.2);border-radius:100px;padding:.4rem 1rem;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mint);margin-bottom:2rem}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:pdot 2s ease infinite}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,4.8rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;color:var(--white);margin-bottom:1.75rem}
+.hero-h1 .ac{color:var(--mint);font-style:italic}
+.hero-h1 .ln2{display:block;color:var(--muted)}
+.hero-p{font-size:1rem;line-height:1.75;color:var(--muted);font-weight:300;max-width:440px;margin-bottom:2.5rem}
+.hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-mint{background:var(--mint);color:var(--bg);padding:.9rem 2.2rem;border-radius:100px;font-size:.85rem;font-weight:600;letter-spacing:.05em;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s}
+.btn-mint:hover{transform:translateY(-2px);box-shadow:0 8px 38px rgba(78,207,176,.35)}
+.btn-ghost{color:var(--muted);font-size:.85rem;font-weight:400;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:color .2s;border-bottom:1px solid var(--border);padding-bottom:2px}
+.btn-ghost:hover{color:var(--white)}
+.hero-stats{display:flex;gap:3rem;margin-top:3.5rem}
+.stn{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--white);line-height:1}
+.stn span{color:var(--mint)}
+.stl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
+
+/* Process strip */
+.hproc{display:flex;align-items:center;margin-top:2.5rem;padding:1.1rem 1.4rem;background:rgba(245,248,247,.03);border:1px solid var(--border);border-radius:14px;max-width:460px}
+.pstep{display:flex;align-items:center;gap:.55rem;flex:1}
+.picon{width:34px;height:34px;border-radius:9px;background:rgba(78,207,176,.08);border:1px solid rgba(78,207,176,.15);display:flex;align-items:center;justify-content:center;color:var(--mint);flex-shrink:0;transition:background .3s,box-shadow .3s}
+.pstep:hover .picon{background:rgba(78,207,176,.15);box-shadow:0 0 16px rgba(78,207,176,.2)}
+.ptxt{display:flex;flex-direction:column;gap:1px}
+.pnum{font-size:.58rem;color:var(--mint);font-weight:600;letter-spacing:.1em}
+.plbl{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.parr{flex-shrink:0;padding:0 .2rem;display:flex;align-items:center}
+
+/* Hero right */
+.hero-right{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hglow{position:absolute;right:10vw;top:50%;transform:translateY(-50%);width:280px;height:280px;background:radial-gradient(circle,rgba(78,207,176,.1) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.himg-main{position:absolute;right:4vw;top:50%;transform:translateY(-50%);width:min(360px,36vw);height:min(500px,62vh);border-radius:180px 180px 20px 20px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.himg-main img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease}
+.himg-main:hover img{transform:scale(1.04)}
+.himg-f1{position:absolute;right:calc(4vw + min(320px,32vw));top:18%;width:min(150px,15vw);height:min(190px,24vh);border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.himg-f1 img{width:100%;height:100%;object-fit:cover}
+.himg-f2{position:absolute;right:calc(4vw + min(185px,18vw));bottom:10%;width:min(130px,13vw);height:min(150px,19vh);border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.himg-f2 img{width:100%;height:100%;object-fit:cover}
+.htag{position:absolute;right:calc(4vw + min(360px,36vw) + 1rem);bottom:28%;background:rgba(13,18,24,.92);border:1px solid var(--border);backdrop-filter:blur(12px);border-radius:12px;padding:1rem 1.2rem;min-width:155px}
+.htag-l{font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:.35rem}
+.htag-v{font-size:.88rem;font-weight:500;color:var(--white)}
+.htag-s{font-size:.72rem;color:var(--mint);margin-top:2px}
+
+/* ===================== TICKER ===================== */
+.ticker{background:var(--mint);padding:.7rem 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:2.5rem;animation:tick 30s linear infinite}
+.ticker-inner span{font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--bg)}
+.ticker-inner .sep{color:rgba(6,9,15,.3)}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===================== COMMONS ===================== */
+section{padding:8rem 8vw;position:relative}
+.eyebrow{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--mint)}
+.sh2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:700;line-height:1.1;color:var(--white);margin-bottom:1.2rem}
+.sh2 em{font-style:italic;color:var(--mint)}
+
+/* ===================== SERVICES ===================== */
+.svc-sec{background:var(--surface)}
+.svc-intro{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:4rem}
+.svc-lead{font-size:1rem;line-height:1.8;color:var(--muted);font-weight:300}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.25rem;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .35s;cursor:pointer}
+.sc::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(78,207,176,.07) 0%,transparent 60%);opacity:0;transition:opacity .35s}
+.sc:hover{transform:translateY(-8px);border-color:rgba(78,207,176,.25);box-shadow:0 30px 60px rgba(0,0,0,.4),0 0 40px rgba(78,207,176,.05)}
+.sc:hover::before{opacity:1}
+.sc-img{width:100%;height:175px;border-radius:12px;overflow:hidden;margin-bottom:1.4rem;position:relative}
+.sc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.sc:hover .sc-img img{transform:scale(1.08)}
+.sc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,9,15,.6) 0%,transparent 60%)}
+.sc-n{position:absolute;bottom:9px;right:13px;font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:rgba(255,255,255,.13)}
+.sc-ico{width:42px;height:42px;border-radius:11px;background:rgba(78,207,176,.1);border:1px solid rgba(78,207,176,.2);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;color:var(--mint);transition:background .3s,box-shadow .3s}
+.sc:hover .sc-ico{background:rgba(78,207,176,.15);box-shadow:0 0 18px rgba(78,207,176,.2)}
+.sc-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:var(--white);margin-bottom:.55rem}
+.sc-desc{font-size:.83rem;line-height:1.7;color:var(--muted);font-weight:300}
+.sc-arr{margin-top:1.1rem;display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;color:var(--mint);font-weight:500;transition:gap .2s}
+.sc:hover .sc-arr{gap:.7rem}
+
+/* ===================== WHY US ===================== */
+.why-sec{background:var(--bg);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.wi{position:relative;height:580px}
+.wim{position:absolute;left:0;top:0;width:75%;height:80%;border-radius:22px;overflow:hidden}
+.wim img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.wim:hover img{transform:scale(1.04)}
+.wis{position:absolute;right:0;bottom:0;width:54%;height:54%;border-radius:22px;overflow:hidden;border:4px solid var(--bg);box-shadow:0 20px 55px rgba(0,0,0,.5)}
+.wis img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.wis:hover img{transform:scale(1.04)}
+.wbadge{position:absolute;left:50%;bottom:33%;transform:translateX(-50%);background:var(--mint);color:var(--bg);border-radius:14px;padding:.9rem 1.4rem;text-align:center;white-space:nowrap;box-shadow:0 8px 38px rgba(78,207,176,.3)}
+.wbn{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;line-height:1}
+.wbl{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.wlist{margin-top:2rem;display:flex;flex-direction:column;gap:1rem}
+.wi-item{display:flex;gap:1rem;align-items:flex-start;padding:1.2rem;border:1px solid var(--border);border-radius:14px;background:var(--surface);transition:border-color .3s,transform .3s,box-shadow .3s}
+.wi-item:hover{border-color:rgba(78,207,176,.25);transform:translateX(6px);box-shadow:0 10px 38px rgba(0,0,0,.3)}
+.wiico{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:rgba(78,207,176,.1);border:1px solid rgba(78,207,176,.2);display:flex;align-items:center;justify-content:center;color:var(--mint)}
+.wit{font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:.22rem}
+.wid{font-size:.8rem;line-height:1.6;color:var(--muted);font-weight:300}
+
+/* ===================== GALLERY ===================== */
+.gal-sec{background:var(--surface);text-align:center}
+.gal-intro{margin:0 auto 3.5rem;max-width:580px}
+.gal-sub{font-size:.98rem;color:var(--muted);font-weight:300;line-height:1.7}
+.gal-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:270px 270px;gap:1rem}
+.gi{border-radius:14px;overflow:hidden;position:relative;cursor:pointer}
+.gi:first-child{grid-row:1/3}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gi:hover img{transform:scale(1.06)}
+.giov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,9,15,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:1.2rem}
+.gi:hover .giov{opacity:1}
+.gilbl{font-size:.78rem;font-weight:500;color:var(--white);letter-spacing:.04em}
+.gibdg{position:absolute;top:11px;right:11px;background:var(--mint);color:var(--bg);border-radius:100px;padding:.22rem .7rem;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .3s}
+.gi:hover .gibdg{opacity:1}
+
+/* ===================== TESTIMONIALS ===================== */
+.tst-sec{background:var(--bg)}
+.tst-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem}
+.tst-rat{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem}
+.stbig{display:flex;gap:3px}
+.st{width:17px;height:17px;color:var(--gold)}
+.rattxt{font-size:.78rem;color:var(--muted)}
+.tst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s}
+.tc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--mint),var(--mint2));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.tc:hover{transform:translateY(-6px);border-color:rgba(78,207,176,.2);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.tc:hover::after{transform:scaleX(1)}
+.tc-top{display:flex;align-items:center;gap:.85rem;margin-bottom:1.2rem}
+.tc-av{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(78,207,176,.2)}
+.tc-av img{width:100%;height:100%;object-fit:cover}
+.tc-nm{font-size:.88rem;font-weight:600;color:var(--white)}
+.tc-rl{font-size:.73rem;color:var(--muted);margin-top:2px}
+.tc-stars{display:flex;gap:2px;margin-bottom:.8rem}
+.tcs{width:12px;height:12px;color:var(--gold)}
+.tc-q{font-family:'Playfair Display',serif;font-size:3rem;line-height:.65;color:var(--mint);opacity:.3;margin-bottom:.5rem}
+.tc-txt{font-size:.88rem;line-height:1.75;color:var(--muted);font-weight:300;font-style:italic;font-family:'Playfair Display',serif}
+
+/* ===================== CTA ===================== */
+.cta-sec{background:var(--surface);text-align:center;padding:8rem 8vw;position:relative;overflow:hidden}
+.cta-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(78,207,176,.07) 0%,transparent 70%);pointer-events:none}
+.cta-t{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:1.4rem;position:relative;z-index:1}
+.cta-t em{color:var(--mint);font-style:italic}
+.cta-s{font-size:1rem;color:var(--muted);font-weight:300;max-width:480px;margin:0 auto 2.75rem;line-height:1.7;position:relative;z-index:1}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.btn-ml{background:var(--mint);color:var(--bg);padding:1rem 2.6rem;border-radius:100px;font-size:.92rem;font-weight:600;letter-spacing:.05em;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s}
+.btn-ml:hover{transform:translateY(-3px);box-shadow:0 12px 48px rgba(78,207,176,.4)}
+.btn-ol{background:transparent;color:var(--white);padding:1rem 2.6rem;border-radius:100px;border:1px solid var(--border);font-size:.92rem;font-weight:400;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s}
+.btn-ol:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.05)}
+.cta-fs{display:flex;justify-content:center;gap:3rem;margin-top:3rem;flex-wrap:wrap}
+.cta-f{display:flex;align-items:center;gap:.55rem;font-size:.8rem;color:var(--muted)}
+.cta-f::before{content:'✓';width:19px;height:19px;border-radius:50%;background:rgba(78,207,176,.11);border:1px solid rgba(78,207,176,.22);color:var(--mint);font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ===================== CONTACT ===================== */
+.con-sec{background:var(--bg);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.clead{font-size:.98rem;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:2.5rem;margin-top:.75rem}
+.cdetails{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:2.5rem}
+.cit{display:flex;gap:1rem;align-items:flex-start;padding:1.1rem 1.2rem;border:1px solid var(--border);border-radius:13px;background:var(--surface);transition:border-color .3s,transform .3s}
+.cit:hover{border-color:rgba(78,207,176,.2);transform:translateX(4px)}
+.cico{width:35px;height:35px;border-radius:9px;background:rgba(78,207,176,.1);border:1px solid rgba(78,207,176,.15);display:flex;align-items:center;justify-content:center;color:var(--mint);flex-shrink:0}
+.clbl{font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:.28rem}
+.cval{font-size:.88rem;color:var(--white);line-height:1.5}
+.wa-btn{display:flex;align-items:center;gap:.7rem;background:#1FAF38;color:white;padding:.95rem 1.4rem;border-radius:13px;font-size:.86rem;font-weight:500;text-decoration:none;transition:all .3s;box-shadow:0 4px 18px rgba(31,175,56,.2)}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(31,175,56,.35)}
+.fbox{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:2.5rem}
+.ftitle{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:500;color:var(--white);margin-bottom:1.75rem}
+.fg{display:flex;flex-direction:column;gap:.38rem;margin-bottom:1.1rem}
+.fg label{font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted2)}
+.fg input,.fg select,.fg textarea{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:.8rem 1rem;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--white);outline:none;transition:border-color .2s,box-shadow .2s;appearance:none}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted2)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(78,207,176,.38);box-shadow:0 0 0 3px rgba(78,207,176,.07)}
+.fg select option{background:var(--card)}
+.fg textarea{resize:none;height:95px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fbtn{width:100%;background:var(--mint);color:var(--bg);border:none;padding:.95rem;border-radius:9px;font-family:'Outfit',sans-serif;font-size:.86rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:.4rem;transition:all .3s}
+.fbtn:hover{background:var(--mint2);box-shadow:0 8px 28px rgba(78,207,176,.3)}
+
+/* ===================== FOOTER ===================== */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:2.75rem 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.25rem}
+.flogo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.flinks{display:flex;gap:2rem;flex-wrap:wrap}
+.flinks a{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:var(--mint)}
+.fcopy{font-size:.7rem;color:var(--muted2)}
+
+/* ===================== SCROLL REVEAL ===================== */
+/* CSS animation fallback ensures content always shows even if JS observer doesn't fire */
+.rv{opacity:0;transform:translateY(36px);animation:arv .7s ease forwards;animation-delay:var(--d,.25s)}
+.rvl{opacity:0;transform:translateX(-36px);animation:arvl .7s ease forwards;animation-delay:var(--d,.25s)}
+.rvr{opacity:0;transform:translateX(36px);animation:arvr .7s ease forwards;animation-delay:var(--d,.25s)}
+@keyframes arv{to{opacity:1;transform:translateY(0)}}
+@keyframes arvl{to{opacity:1;transform:translateX(0)}}
+@keyframes arvr{to{opacity:1;transform:translateX(0)}}
+.rv.vis,.rvl.vis,.rvr.vis{opacity:1;transform:none;animation:none}
+.d1{--d:.1s}.d2{--d:.2s}.d3{--d:.3s}.d4{--d:.4s}.d5{--d:.5s}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:1024px){
+  nav{padding:1.2rem 4vw}nav ul{display:none}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:6.5rem 5vw 3.5rem}
+  .hero-right{height:55vw;min-height:280px}
+  .himg-main{width:62%;height:84%;right:5vw}
+  .himg-f1,.himg-f2,.htag{display:none}
+  section{padding:5rem 5vw}
+  .svc-intro{grid-template-columns:1fr;gap:1.5rem}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .why-sec{grid-template-columns:1fr}
+  .wi{height:380px}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .gi:first-child{grid-row:auto}
+  .tst-grid{grid-template-columns:1fr 1fr}
+  .con-sec{grid-template-columns:1fr}
+  .tst-head{flex-direction:column;align-items:flex-start}
+  footer{padding:2.2rem 5vw}
+}
+@media(max-width:640px){
+  .svc-grid{grid-template-columns:1fr}
+  .tst-grid{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+  .gal-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .cta-fs{gap:1.25rem}
+  .hproc{display:none}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo"><div class="logo-dot"></div>PureSmile<span style="color:var(--mint);font-style:italic"> Studio</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact" class="nav-book">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <!-- Tooth decor: position:absolute so they never affect grid layout -->
+  <div class="tdeco" style="top:10%;left:1.5%"><div style="animation:fa 8s ease-in-out infinite"><svg width="50" height="58" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="var(--mint)" stroke-width="1.5" fill="none"/></svg></div></div>
+  <div class="tdeco" style="bottom:15%;left:2%;opacity:.05"><div style="animation:fb 10s ease-in-out infinite;animation-delay:-4s"><svg width="32" height="38" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="var(--mint)" stroke-width="2" fill="none"/></svg></div></div>
+  <div class="tdeco" style="top:7%;right:1.5%;opacity:.05"><div style="animation:fc 11s ease-in-out infinite;animation-delay:-2s"><svg width="38" height="46" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="white" stroke-width="1.5" fill="none"/></svg></div></div>
+
+  <div class="hero-left">
+    <div class="hero-badge"><span class="bdot"></span>Nagpur's Premium Dental Studio</div>
+    <h1 class="hero-h1">Crafting<br><span class="ac">Perfect Smiles</span><span class="ln2">in Nagpur.</span></h1>
+    <p class="hero-p">Advanced cosmetic and general dentistry. Combining precision technology with a calm, luxurious experience every visit.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-mint">Book Appointment <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+      <a href="#services" class="btn-ghost">Explore Services ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stn">5000<span>+</span></div><div class="stl">Patients</div></div>
+      <div><div class="stn">15<span>yrs</span></div><div class="stl">Experience</div></div>
+      <div><div class="stn">4.9<span>★</span></div><div class="stl">Rating</div></div>
+    </div>
+    <div class="hproc">
+      <div class="pstep"><div class="picon"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><rect x="3" y="2" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 6h6M6 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="ptxt"><span class="pnum">01</span><span class="plbl">Book Consult</span></div></div>
+      <div class="parr"><svg width="20" height="8" viewBox="0 0 20 8" fill="none"><path d="M0 4h14M11 1l4 3-4 3" stroke="rgba(78,207,176,.3)" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+      <div class="pstep"><div class="picon"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="7" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 15.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><div class="ptxt"><span class="pnum">02</span><span class="plbl">Meet Doctor</span></div></div>
+      <div class="parr"><svg width="20" height="8" viewBox="0 0 20 8" fill="none"><path d="M0 4h14M11 1l4 3-4 3" stroke="rgba(78,207,176,.3)" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+      <div class="pstep"><div class="picon"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M4.5 3C3.2 3 2 4.2 2 5.8C2 7.1 2.7 8 3.2 9.1L4.5 15C4.7 16 5.3 16.4 6.2 16.4C7 16.4 7.5 15.9 7.8 14.9L9 11.2L10.2 14.9C10.5 15.9 11 16.4 11.8 16.4C12.6 16.4 13.3 16 13.5 15L14.8 9.1C15.3 8 16 7.1 16 5.8C16 4.2 14.8 3 13.5 3C12.5 3 11.7 3.6 11 3.8C10.4 4 9.7 4.1 9 4.1C8.3 4.1 7.6 4 7 3.8C6.3 3.6 5.5 3 4.5 3Z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg></div><div class="ptxt"><span class="pnum">03</span><span class="plbl">Treatment</span></div></div>
+      <div class="parr"><svg width="20" height="8" viewBox="0 0 20 8" fill="none"><path d="M0 4h14M11 1l4 3-4 3" stroke="rgba(78,207,176,.3)" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+      <div class="pstep"><div class="picon"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M9 3C6.5 3 5 5 5 7C5 9.5 7 11.5 9 13.5C11 11.5 13 9.5 13 7C13 5 11.5 3 9 3Z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M6.5 9C7.2 10 8 11 9 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="ptxt"><span class="pnum">04</span><span class="plbl">Love Smile</span></div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hglow"></div>
+    <div class="himg-main"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80&auto=format&fit=crop" alt="Dental Doctor"></div>
+    <div class="himg-f1"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80&auto=format&fit=crop" alt="Dental Care"></div>
+    <div class="himg-f2"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&q=80&auto=format&fit=crop" alt="Happy Patient"></div>
+    <div class="htag"><div class="htag-l">Next slot open</div><div class="htag-v">Tomorrow · 10:30 AM</div><div class="htag-s">↗ Reserve now</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Teeth Whitening</span><span class="sep">✦</span><span>Dental Implants</span><span class="sep">✦</span><span>Orthodontics</span><span class="sep">✦</span><span>Root Canal</span><span class="sep">✦</span><span>Veneers</span><span class="sep">✦</span><span>Braces & Aligners</span><span class="sep">✦</span><span>Smile Design</span><span class="sep">✦</span><span>Pediatric Dentistry</span><span class="sep">✦</span>
+    <span>Teeth Whitening</span><span class="sep">✦</span><span>Dental Implants</span><span class="sep">✦</span><span>Orthodontics</span><span class="sep">✦</span><span>Root Canal</span><span class="sep">✦</span><span>Veneers</span><span class="sep">✦</span><span>Braces & Aligners</span><span class="sep">✦</span><span>Smile Design</span><span class="sep">✦</span><span>Pediatric Dentistry</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="svc-sec" id="services">
+  <div class="tdeco" style="top:3%;right:2%;opacity:.04"><div style="animation:fb 9s ease-in-out infinite;animation-delay:-3s"><svg width="66" height="78" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="var(--mint)" stroke-width="1.2" fill="none"/></svg></div></div>
+  <div class="svc-intro">
+    <div><p class="eyebrow">What We Do</p><h2 class="sh2">Complete care for<br>every <em>smile.</em></h2></div>
+    <p class="svc-lead">From routine cleanings to full smile transformations — every dental service under one roof, powered by state-of-the-art technology and a gentle touch.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="sc rv d1"><div class="sc-img"><img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=600&q=80&auto=format&fit=crop" alt="Cosmetic"><div class="sc-ov"></div><span class="sc-n">01</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M7 10 Q10 7 13 10 Q10 13 7 10Z" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></div><div class="sc-name">Cosmetic Dentistry</div><div class="sc-desc">Veneers, bonding, and smile makeovers designed to create naturally beautiful results.</div><div class="sc-arr">Learn more →</div></div>
+    <div class="sc rv d2"><div class="sc-img"><img src="https://images.unsplash.com/photo-1643902075985-a79975f0f5dc?w=600&q=80&auto=format&fit=crop" alt="Whitening"><div class="sc-ov"></div><span class="sc-n">02</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L12 8H17L13 11L14.5 16L10 13L5.5 16L7 11L3 8H8L10 3Z" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></div><div class="sc-name">Teeth Whitening</div><div class="sc-desc">Professional in-clinic whitening — multiple shades brighter in a single, painless session.</div><div class="sc-arr">Learn more →</div></div>
+    <div class="sc rv d3"><div class="sc-img"><img src="https://images.unsplash.com/photo-1588776814546-1ffbb4e6a6e1?w=600&q=80&auto=format&fit=crop" alt="Implants"><div class="sc-ov"></div><span class="sc-n">03</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="8" y="2" width="4" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6 12h8l-1 6H7l-1-6Z" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></div><div class="sc-name">Dental Implants</div><div class="sc-desc">Permanent, natural-feeling tooth replacement using premium titanium implants.</div><div class="sc-arr">Learn more →</div></div>
+    <div class="sc rv d2"><div class="sc-img"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&q=80&auto=format&fit=crop" alt="Ortho"><div class="sc-ov"></div><span class="sc-n">04</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div><div class="sc-name">Orthodontics</div><div class="sc-desc">Metal braces, ceramic braces, and Invisalign clear aligners for any age.</div><div class="sc-arr">Learn more →</div></div>
+    <div class="sc rv d3"><div class="sc-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80&auto=format&fit=crop" alt="RCT"><div class="sc-ov"></div><span class="sc-n">05</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 3C3.5 3 2 4.5 2 6.5C2 8.2 3 9.5 3.8 10.8L5 17C5.4 18.3 6.2 19 7.5 19C8.8 19 9.5 18.2 9.9 17L10 16.5L10.1 17C10.5 18.2 11.2 19 12.5 19C13.8 19 14.6 18.3 15 17L16.2 10.8C17 9.5 18 8.2 18 6.5C18 4.5 16.5 3 15 3C13.8 3 12.8 3.6 12 3.9C11.4 4.1 10.7 4.3 10 4.3C9.3 4.3 8.6 4.1 8 3.9C7.2 3.6 6.2 3 5 3Z" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></div><div class="sc-name">Root Canal</div><div class="sc-desc">Painless rotary root canal therapy that saves your natural tooth comfortably.</div><div class="sc-arr">Learn more →</div></div>
+    <div class="sc rv d4"><div class="sc-img"><img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&q=80&auto=format&fit=crop" alt="General"><div class="sc-ov"></div><span class="sc-n">06</span></div><div class="sc-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16V4h12v12M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div><div class="sc-name">General Dentistry</div><div class="sc-desc">Routine checkups, cleanings, and fillings — prevention is always the best treatment.</div><div class="sc-arr">Learn more →</div></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-sec" id="about">
+  <div class="wi rvl">
+    <div class="wim"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&auto=format&fit=crop&crop=faces" alt="Indian Doctor"></div>
+    <div class="wis"><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&q=80&auto=format&fit=crop" alt="Happy Patient"></div>
+    <div class="wbadge"><div class="wbn">15+</div><div class="wbl">Years Serving Nagpur</div></div>
+  </div>
+  <div class="rvr">
+    <p class="eyebrow">Why Choose Us</p>
+    <h2 class="sh2">Excellence you can<br>feel from the <em>first visit.</em></h2>
+    <div class="wlist">
+      <div class="wi-item"><div class="wiico"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M9 2L11 7H16L12 10L14 15L9 12L4 15L6 10L2 7H7L9 2Z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg></div><div><div class="wit">State-of-the-Art Technology</div><div class="wid">Digital X-rays, 3D scanning, and rotary RCT for precise, comfortable care.</div></div></div>
+      <div class="wi-item"><div class="wiico"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M3 16c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><div><div class="wit">Expert, Caring Team</div><div class="wid">MDS-qualified specialists with 15+ years of experience — warm and anxiety-free.</div></div></div>
+      <div class="wi-item"><div class="wiico"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 8h6M6 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><div><div class="wit">Transparent Pricing</div><div class="wid">Clear upfront costs with EMI options. No hidden charges, ever.</div></div></div>
+      <div class="wi-item"><div class="wiico"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.3"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><div><div class="wit">Convenient Hours</div><div class="wid">Open Mon–Sat 9 AM–8 PM and Sunday mornings. Easy WhatsApp booking.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gal-sec" id="gallery">
+  <div class="gal-intro rv">
+    <p class="eyebrow" style="justify-content:center">Our Clinic</p>
+    <h2 class="sh2">A space designed<br>for your <em>comfort.</em></h2>
+    <p class="gal-sub">Modern, clean, and welcoming. Our studio was built to make every visit feel relaxed and reassuring.</p>
+  </div>
+  <div class="gal-grid rv">
+    <div class="gi"><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&q=80&auto=format&fit=crop" alt="Main"><div class="giov"><span class="gilbl">Main Treatment Room</span></div><div class="gibdg">Featured</div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80&auto=format&fit=crop" alt="Equipment"><div class="giov"><span class="gilbl">Advanced Equipment</span></div><div class="gibdg">Tech</div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80&auto=format&fit=crop&crop=faces" alt="Doctor"><div class="giov"><span class="gilbl">Expert Doctor</span></div><div class="gibdg">Doctor</div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80&auto=format&fit=crop" alt="Consult"><div class="giov"><span class="gilbl">Patient Consultation</span></div><div class="gibdg">Care</div></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=600&q=80&auto=format&fit=crop" alt="Team"><div class="giov"><span class="gilbl">Treatment in Progress</span></div><div class="gibdg">Team</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="tst-sec" id="reviews">
+  <div class="tst-head">
+    <div><p class="eyebrow">Patient Stories</p><h2 class="sh2">Real smiles,<br><em>real stories.</em></h2></div>
+    <div class="tst-rat">
+      <div class="stbig"><svg class="st" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="st" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="st" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="st" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="st" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg></div>
+      <div class="rattxt">4.9 out of 5 · 320+ Google reviews</div>
+    </div>
+  </div>
+  <div class="tst-grid">
+    <div class="tc rv d1"><div class="tc-q">"</div><div class="tc-top"><div class="tc-av"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80&auto=format&fit=crop&crop=faces" alt="Rahul"></div><div><div class="tc-nm">Rahul Deshmukh</div><div class="tc-rl">Software Engineer, Nagpur</div></div></div><div class="tc-stars"><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg></div><p class="tc-txt">The root canal was completely painless — I was shocked. The team is so professional and the clinic feels premium. Best dental experience in Nagpur.</p></div>
+    <div class="tc rv d2"><div class="tc-q">"</div><div class="tc-top"><div class="tc-av"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80&auto=format&fit=crop&crop=faces" alt="Sneha"></div><div><div class="tc-nm">Sneha Kulkarni</div><div class="tc-rl">Teacher, Nagpur</div></div></div><div class="tc-stars"><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg></div><p class="tc-txt">My veneers look absolutely unbelievable. The results are so natural. Doctor took time to understand what I wanted. I get compliments every single day!</p></div>
+    <div class="tc rv d3"><div class="tc-q">"</div><div class="tc-top"><div class="tc-av"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80&auto=format&fit=crop&crop=faces" alt="Pradeep"></div><div><div class="tc-nm">Pradeep Joshi</div><div class="tc-rl">Business Owner, Nagpur</div></div></div><div class="tc-stars"><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg><svg class="tcs" viewBox="0 0 18 18" fill="currentColor"><path d="M9 1l2.4 5H17l-4.4 3.4 1.7 5.4L9 11.8l-5.3 3L5.4 9.4 1 6h5.6z"/></svg></div><p class="tc-txt">My daughter's Invisalign journey has been smooth from day one. Staff is so patient with kids. We drive from Wardha just to come here — worth every kilometer.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-glow"></div>
+  <div class="tdeco" style="top:8%;left:3%;opacity:.06"><div style="animation:fa 9s ease-in-out infinite"><svg width="60" height="72" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="var(--mint)" stroke-width="1.4" fill="none"/></svg></div></div>
+  <div class="tdeco" style="bottom:8%;right:3%;opacity:.06"><div style="animation:fb 11s ease-in-out infinite;animation-delay:-5s"><svg width="46" height="54" viewBox="0 0 52 60" fill="none"><path d="M13 6C9.5 6 5 9.5 5 15C5 19.5 7.5 23 9 26.5L13 47C13.8 50.5 15.5 52 18.5 52C21.5 52 23 50 24 46L26 37L28 46C29 50 30.5 52 33.5 52C36.5 52 38.2 50.5 39 47L43 26.5C44.5 23 47 19.5 47 15C47 9.5 42.5 6 39 6C36 6 33.5 7.5 31 8.5C29.2 9.2 27.6 9.8 26 9.8C24.4 9.8 22.8 9.2 21 8.5C18.5 7.5 16 6 13 6Z" stroke="var(--mint)" stroke-width="1.4" fill="none"/></svg></div></div>
+  <div class="rv">
+    <h2 class="cta-t">Ready for your<br><em>best smile?</em></h2>
+    <p class="cta-s">Book a free consultation today and let our experts create a personalised treatment plan just for you.</p>
+    <div class="cta-btns">
+      <a href="#contact" class="btn-ml">Book Free Consultation <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M3 9H15M11 5L15 9L11 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+      <a href="https://wa.me/919876543210" class="btn-ol"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.6 0 0 3.6 0 8C0 9.4.4 10.8 1 12L0 16L4.2 15C5.4 15.6 6.7 16 8 16C12.4 16 16 12.4 16 8C16 3.6 12.4 0 8 0ZM11.6 10.6C11.4 11.2 10.6 11.6 9.8 11.8C9.2 11.9 8.4 11.8 7.6 11.5C6.9 11.2 6.1 10.7 5.5 10.1C4.8 9.4 4.2 8.5 3.9 7.7C3.6 6.9 3.7 6.1 4 5.6C4.2 5.2 4.6 5 5 5H5.4C5.6 5 5.8 5.1 5.9 5.4L6.5 6.8C6.6 7 6.5 7.2 6.4 7.4L6 7.9C6.5 8.8 7.5 9.6 9.1 10.5L9.6 10.1C9.8 9.9 10.1 9.9 10.3 10L11.6 10.6C11.9 10.8 11.8 11.3 11.6 10.6Z"/></svg> WhatsApp Us</a>
+    </div>
+    <div class="cta-fs">
+      <div class="cta-f">Free first consultation</div>
+      <div class="cta-f">No hidden charges</div>
+      <div class="cta-f">EMI available</div>
+      <div class="cta-f">Sunday appointments</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="con-sec" id="contact">
+  <div>
+    <p class="eyebrow">Contact Us</p>
+    <h2 class="sh2">Let's get your<br><em>smile started.</em></h2>
+    <p class="clead">We're here to answer all your questions and get you scheduled. Reach us by phone, WhatsApp, or the form.</p>
+    <div class="cdetails">
+      <div class="cit"><div class="cico"><svg width="16" height="16" viewBox="0 0 17 17" fill="none"><path d="M8.5 1C5.5 1 3 3.5 3 6.5C3 10 8.5 16 8.5 16C8.5 16 14 10 14 6.5C14 3.5 11.5 1 8.5 1Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8.5" cy="6.5" r="1.8" stroke="currentColor" stroke-width="1.2"/></svg></div><div><div class="clbl">Address</div><div class="cval">12 Ramdaspeth, Near Railway Station<br>Nagpur, Maharashtra 440010</div></div></div>
+      <div class="cit"><div class="cico"><svg width="16" height="16" viewBox="0 0 17 17" fill="none"><path d="M3 3H6L7.5 7L5.5 8.5C6.5 10.5 7.5 11.5 9.5 12.5L11 10.5L15 12V15C15 15.5 14.5 16 14 16C7.5 16 2 10.5 2 4C2 3.5 2.5 3 3 3Z" stroke="currentColor" stroke-width="1.2"/></svg></div><div><div class="clbl">Phone</div><div class="cval">+91 98765 43210</div></div></div>
+      <div class="cit"><div class="cico"><svg width="16" height="16" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 5V8.5L11 11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div><div><div class="clbl">Hours</div><div class="cval">Mon–Sat: 9 AM – 8 PM · Sunday: 10 AM – 2 PM</div></div></div>
+    </div>
+    <a class="wa-btn" href="https://wa.me/919876543210" target="_blank"><svg width="20" height="20" viewBox="0 0 22 22" fill="currentColor"><path d="M11 0C4.9 0 0 4.9 0 11C0 12.9.5 14.8 1.4 16.5L0 22L5.8 20.6C7.4 21.5 9.2 22 11 22C17.1 22 22 17.1 22 11C22 4.9 17.1 0 11 0ZM15.9 14.6C15.6 15.4 14.6 16 13.7 16.2C13 16.4 12 16.2 11 15.8C9.9 15.3 8.8 14.6 7.9 13.7C7 12.8 6.2 11.7 5.7 10.6C5.2 9.5 5.3 8.5 5.7 7.8C6 7.2 6.5 6.9 7 6.9H7.6C7.8 6.9 8.1 7 8.2 7.4L9 9.3C9.1 9.6 9 9.9 8.8 10.1L8.3 10.8C9 11.9 10.4 13.1 11.8 13.8L12.4 13.2C12.6 12.9 13 12.9 13.3 13.1L15.1 13.9C15.5 14.1 15.7 14.3 15.9 14.6Z"/></svg>Chat on WhatsApp · Instant Reply</a>
+  </div>
+  <div class="fbox rvr">
+    <div class="ftitle">Book an Appointment</div>
+    <div class="frow"><div class="fg"><label>First Name</label><input type="text" placeholder="Rahul"></div><div class="fg"><label>Last Name</label><input type="text" placeholder="Sharma"></div></div>
+    <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91 98765 43210"></div>
+    <div class="fg"><label>Service Needed</label><select><option value="">Select a treatment...</option><option>General Checkup</option><option>Teeth Whitening</option><option>Dental Implants</option><option>Braces / Invisalign</option><option>Root Canal</option><option>Veneers / Smile Design</option><option>Pediatric Dentistry</option><option>Other</option></select></div>
+    <div class="frow"><div class="fg"><label>Preferred Date</label><input type="date"></div><div class="fg"><label>Preferred Time</label><select><option>Morning (9–12)</option><option>Afternoon (12–4)</option><option>Evening (4–8)</option></select></div></div>
+    <div class="fg"><label>Message</label><textarea placeholder="Any concerns or specific requests..."></textarea></div>
+    <button class="fbtn">Confirm Appointment →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="flogo"><div class="logo-dot"></div>PureSmile<span style="color:var(--mint);font-style:italic"> Studio</span></a>
+  <div class="flinks"><a href="#services">Services</a><a href="#about">About</a><a href="#gallery">Gallery</a><a href="#reviews">Reviews</a><a href="#contact">Book Now</a></div>
+  <p class="fcopy">© 2025 PureSmile Dental Studio · Nagpur</p>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+// Scroll reveal: JS accelerates the CSS animation by triggering .vis class
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.animationPlayState='running';
+      e.target.classList.add('vis');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
